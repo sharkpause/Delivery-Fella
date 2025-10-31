@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Driver : MonoBehaviour
 {
@@ -7,6 +8,13 @@ public class Driver : MonoBehaviour
     [SerializeField] float currentTranslationSpeed = 4f;
     [SerializeField] float boostSpeed = 8f;
     [SerializeField] float regularSpeed = 4f;
+
+    [SerializeField] TMP_Text boostText;
+
+    private void Start()
+    {
+        boostText.gameObject.SetActive(false);
+    }
 
     void Update()
     {
@@ -37,6 +45,9 @@ public class Driver : MonoBehaviour
         if(currentTranslationSpeed > regularSpeed)
         {
             currentTranslationSpeed -= 0.2f * Time.deltaTime;
+        } else
+        {
+            boostText.gameObject.SetActive(false);
         }
     }
 
@@ -45,6 +56,9 @@ public class Driver : MonoBehaviour
         if(collision.CompareTag("Boost"))
         {
             currentTranslationSpeed = boostSpeed;
+
+            boostText.gameObject.SetActive(true);
+
             Destroy(collision.gameObject, 0.5f);
         }
     }
